@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Components - Electronics Inventory Management</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="dashboard.html" class="nav-logo">
+                <i class="fas fa-microchip"></i>
+                Electronics Inventory
+            </a>
+            
+            <button class="nav-toggle" id="navToggle">
+                <i class="fas fa-bars"></i>
+            </button>
+            
+            <ul class="nav-menu" id="navMenu">
+                <li class="nav-item">
+                    <a href="dashboard.html" class="nav-link">
+                        <i class="fas fa-tachometer-alt"></i>
+                        Dashboard
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="components.html" class="nav-link active">
+                        <i class="fas fa-microchip"></i>
+                        Components
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link" id="reportsLink">
+                        <i class="fas fa-chart-bar"></i>
+                        Reports
+                    </a>
+                </li>
+                <li class="nav-item" id="adminNav" style="display: none;">
+                    <a href="#" class="nav-link" id="usersLink">
+                        <i class="fas fa-users"></i>
+                        Users
+                    </a>
+                </li>
+            </ul>
+            
+            <div class="nav-user">
+                <span class="user-info" id="userInfo"></span>
+                <button class="logout-btn" id="logoutBtn">
+                    <i class="fas fa-sign-out-alt"></i>
+                    Logout
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Page Header -->
+        <div class="page-header">
+            <h1 class="page-title">
+                <i class="fas fa-microchip"></i>
+                Components Management
+            </h1>
+            <p class="page-description">Manage your electronics components inventory</p>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="card">
+            <div class="flex justify-between align-center">
+                <div class="flex gap-10">
+                    <button class="btn btn-primary" id="addComponentBtn">
+                        <i class="fas fa-plus"></i>
+                        Add Component
+                    </button>
+                    <button class="btn btn-success" id="inwardBtn">
+                        <i class="fas fa-arrow-down"></i>
+                        Inward Stock
+                    </button>
+                    <button class="btn btn-warning" id="outwardBtn">
+                        <i class="fas fa-arrow-up"></i>
+                        Outward Stock
+                    </button>
+                </div>
+                <div class="flex gap-10">
+                    <button class="btn btn-secondary" id="exportBtn">
+                        <i class="fas fa-download"></i>
+                        Export CSV
+                    </button>
+                    <input type="file" id="importFile" accept=".csv" style="display: none;">
+                    <button class="btn btn-secondary" id="importBtn">
+                        <i class="fas fa-upload"></i>
+                        Import CSV
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Search and Filter -->
+        <div class="search-container">
+            <div class="search-row">
+                <div class="form-group">
+                    <label for="searchInput">
+                        <i class="fas fa-search"></i>
+                        Search Components
+                    </label>
+                    <input type="text" id="searchInput" placeholder="Search by name, part number, manufacturer...">
+                </div>
+                
+                <div class="form-group">
+                    <label for="categoryFilter">
+                        <i class="fas fa-filter"></i>
+                        Category
+                    </label>
+                    <select id="categoryFilter">
+                        <option value="">All Categories</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="locationFilter">
+                        <i class="fas fa-map-marker-alt"></i>
+                        Location
+                    </label>
+                    <select id="locationFilter">
+                        <option value="">All Locations</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <button class="btn btn-secondary" id="clearFiltersBtn">
+                        <i class="fas fa-times"></i>
+                        Clear
+                    </button>
+                </div>
+            </div>
+            
+            <div class="search-row">
+                <div class="form-group">
+                    <label for="stockFilter">Stock Status</label>
+                    <select id="stockFilter">
+                        <option value="">All Stock</option>
+                        <option value="low">Low Stock</option>
+                        <option value="normal">Normal Stock</option>
+                        <option value="old">Old Stock (3+ months)</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="quantityMin">Min Quantity</label>
+                    <input type="number" id="quantityMin" placeholder="0">
+                </div>
+                
+                <div class="form-group">
+                    <label for="quantityMax">Max Quantity</label>
+                    <input type="number" id="quantityMax" placeholder="999999">
+                </div>
+                
+                <div class="form-group">
+                    <label for="sortBy">Sort By</label>
+                    <select id="sortBy">
+                        <option value="name">Name</option>
+                        <option value="quantity">Quantity</option>
+                        <option value="unitPrice">Price</option>
+                        <option value="lastUpdated">Last Updated</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- Components Table -->
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">
+                    <i class="fas fa-list"></i>
+                    Components List
+                </h3>
+                <span id="componentCount" class="badge badge-info">0 components</span>
+            </div>
+            
+            <div class="table-container">
+                <table class="table" id="componentsTable">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Part Number</th>
+                            <th>Manufacturer</th>
+                            <th>Category</th>
+                            <th>Quantity</th>
+                            <th>Location</th>
+                            <th>Unit Price</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="componentsTableBody">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <!-- Add/Edit Component Modal -->
+    <div id="componentModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title" id="componentModalTitle">Add Component</h2>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="componentForm">
+                    <input type="hidden" id="componentId" name="componentId">
+                    
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="componentName">Component Name *</label>
+                            <input type="text" id="componentName" name="name" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="partNumber">Part Number *</label>
+                            <input type="text" id="partNumber" name="partNumber" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="manufacturer">Manufacturer/Supplier *</label>
+                            <input type="text" id="manufacturer" name="manufacturer" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="category">Category *</label>
+                            <select id="category" name="category" required>
+                                <option value="">Select Category</option>
+                                <option value="Passive Components">Passive Components</option>
+                                <option value="Semiconductors">Semiconductors</option>
+                                <option value="Microcontrollers">Microcontrollers</option>
+                                <option value="Sensors">Sensors</option>
+                                <option value="Memory">Memory</option>
+                                <option value="Timing Components">Timing Components</option>
+                                <option value="Power Management">Power Management</option>
+                                <option value="Connectors">Connectors</option>
+                                <option value="Displays">Displays</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="quantity">Quantity *</label>
+                            <input type="number" id="quantity" name="quantity" min="0" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="location">Location/Bin *</label>
+                            <input type="text" id="location" name="location" placeholder="e.g., A1-B2" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="unitPrice">Unit Price (₹) *</label>
+                            <input type="number" id="unitPrice" name="unitPrice" step="0.01" min="0" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="criticalLowThreshold">Critical Low Threshold *</label>
+                            <input type="number" id="criticalLowThreshold" name="criticalLowThreshold" min="0" required>
+                        </div>
+                        
+                        <div class="form-group form-group-full">
+                            <label for="description">Description</label>
+                            <textarea id="description" name="description" rows="3"></textarea>
+                        </div>
+                        
+                        <div class="form-group form-group-full">
+                            <label for="datasheetLink">Datasheet Link</label>
+                            <input type="url" id="datasheetLink" name="datasheetLink" placeholder="https://...">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" onclick="Utils.hideModal('componentModal')">Cancel</button>
+                <button type="submit" form="componentForm" class="btn btn-primary">Save Component</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Stock Movement Modal -->
+    <div id="stockMovementModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title" id="stockMovementTitle">Stock Movement</h2>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="stockMovementForm">
+                    <input type="hidden" id="movementComponentId" name="componentId">
+                    <input type="hidden" id="movementType" name="movementType">
+                    
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="selectedComponent">Component *</label>
+                            <select id="selectedComponent" name="selectedComponent" required>
+                                <option value="">Select Component</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="movementQuantity">Quantity *</label>
+                            <input type="number" id="movementQuantity" name="quantity" min="1" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="movementReason">Reason *</label>
+                            <input type="text" id="movementReason" name="reason" required placeholder="e.g., Project usage, Stock replenishment">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="movementProject">Project *</label>
+                            <input type="text" id="movementProject" name="project" required placeholder="e.g., Project Alpha, General Stock">
+                        </div>
+                    </div>
+                    
+                    <div id="currentStockInfo" class="notification notification-info" style="display: none;">
+                        <i class="fas fa-info-circle"></i>
+                        <span id="currentStockText"></span>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" onclick="Utils.hideModal('stockMovementModal')">Cancel</button>
+                <button type="submit" form="stockMovementForm" class="btn btn-primary" id="submitMovementBtn">Process Movement</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Component Details Modal -->
+    <div id="componentDetailsModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Component Details</h2>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body" id="componentDetailsBody">
+                <!-- Dynamic content -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" onclick="Utils.hideModal('componentDetailsModal')">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="data/mockData.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/components.js"></script>
+</body>
+</html>

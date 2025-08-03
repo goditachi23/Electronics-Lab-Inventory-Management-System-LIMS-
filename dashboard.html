@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Electronics Inventory Management</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="dashboard.html" class="nav-logo">
+                <i class="fas fa-microchip"></i>
+                Electronics Inventory
+            </a>
+            
+            <button class="nav-toggle" id="navToggle">
+                <i class="fas fa-bars"></i>
+            </button>
+            
+            <ul class="nav-menu" id="navMenu">
+                <li class="nav-item">
+                    <a href="dashboard.html" class="nav-link active">
+                        <i class="fas fa-tachometer-alt"></i>
+                        Dashboard
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="components.html" class="nav-link">
+                        <i class="fas fa-microchip"></i>
+                        Components
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link" id="reportsLink">
+                        <i class="fas fa-chart-bar"></i>
+                        Reports
+                    </a>
+                </li>
+                <li class="nav-item" id="adminNav" style="display: none;">
+                    <a href="#" class="nav-link" id="usersLink">
+                        <i class="fas fa-users"></i>
+                        Users
+                    </a>
+                </li>
+            </ul>
+            
+            <div class="nav-user">
+                <span class="user-info" id="userInfo"></span>
+                <button class="logout-btn" id="logoutBtn">
+                    <i class="fas fa-sign-out-alt"></i>
+                    Logout
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Page Header -->
+        <div class="page-header">
+            <h1 class="page-title">
+                <i class="fas fa-tachometer-alt"></i>
+                Dashboard
+            </h1>
+            <p class="page-description">Overview of your electronics inventory</p>
+        </div>
+
+        <!-- Stats Cards -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-boxes"></i>
+                </div>
+                <div class="stat-number" id="totalComponents">0</div>
+                <div class="stat-label">Total Components</div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-warehouse"></i>
+                </div>
+                <div class="stat-number" id="totalQuantity">0</div>
+                <div class="stat-label">Total Quantity</div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-exclamation-triangle"></i>
+                </div>
+                <div class="stat-number" id="lowStockItems">0</div>
+                <div class="stat-label">Low Stock Items</div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-clock"></i>
+                </div>
+                <div class="stat-number" id="oldStockItems">0</div>
+                <div class="stat-label">Old Stock Items</div>
+            </div>
+        </div>
+
+        <!-- Charts -->
+        <div class="charts-grid">
+            <div class="chart-container">
+                <h3 class="chart-title">Monthly Inward Items</h3>
+                <canvas id="inwardChart" width="400" height="200"></canvas>
+            </div>
+            
+            <div class="chart-container">
+                <h3 class="chart-title">Monthly Outward Items</h3>
+                <canvas id="outwardChart" width="400" height="200"></canvas>
+            </div>
+        </div>
+
+        <!-- Alerts and Lists -->
+        <div class="charts-grid">
+            <!-- Low Stock Alert -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        Low Stock Alerts
+                    </h3>
+                </div>
+                <div id="lowStockList">
+                    <!-- Dynamic content -->
+                </div>
+            </div>
+            
+            <!-- Old Stock Alert -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">
+                        <i class="fas fa-clock"></i>
+                        Old Stock Items (3+ months)
+                    </h3>
+                </div>
+                <div id="oldStockList">
+                    <!-- Dynamic content -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Activity -->
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">
+                    <i class="fas fa-history"></i>
+                    Recent Activity
+                </h3>
+            </div>
+            <div id="recentActivity">
+                <!-- Dynamic content -->
+            </div>
+        </div>
+
+        <!-- Notifications -->
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">
+                    <i class="fas fa-bell"></i>
+                    Notifications
+                </h3>
+            </div>
+            <div id="notificationsList">
+                <!-- Dynamic content -->
+            </div>
+        </div>
+    </main>
+
+    <!-- User Management Modal (Admin only) -->
+    <div id="usersModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">User Management</h2>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <button class="btn btn-primary mb-20" id="addUserBtn">
+                    <i class="fas fa-plus"></i>
+                    Add New User
+                </button>
+                
+                <div class="table-container">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Username</th>
+                                <th>Name</th>
+                                <th>Role</th>
+                                <th>Email</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="usersTableBody">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add/Edit User Modal -->
+    <div id="userFormModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title" id="userFormTitle">Add User</h2>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="userForm">
+                    <input type="hidden" id="userId" name="userId">
+                    
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="formUsername">Username</label>
+                            <input type="text" id="formUsername" name="username" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="formName">Full Name</label>
+                            <input type="text" id="formName" name="name" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="formEmail">Email</label>
+                            <input type="email" id="formEmail" name="email" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="formRole">Role</label>
+                            <select id="formRole" name="role" required>
+                                <option value="">Select Role</option>
+                                <option value="admin">Admin</option>
+                                <option value="user">Lab Technician</option>
+                                <option value="researcher">Researcher</option>
+                                <option value="engineer">Manufacturing Engineer</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group" id="passwordGroup">
+                            <label for="formPassword">Password</label>
+                            <input type="password" id="formPassword" name="password">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" onclick="Utils.hideModal('userFormModal')">Cancel</button>
+                <button type="submit" form="userForm" class="btn btn-primary">Save User</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="data/mockData.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/dashboard.js"></script>
+    <script src="js/notifications.js"></script>
+</body>
+</html>
