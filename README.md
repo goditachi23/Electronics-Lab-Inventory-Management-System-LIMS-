@@ -43,7 +43,10 @@ MongoDB (Mongoose)
 
 | Login Page | Dashboard | Notifications |
 |------------|-----------|----------------|
-| ![Login](assets/screenshots/login.png) | ![Dashboard](assets/screenshots/dashboard.png) | ![Notifications](assets/screenshots/notifications.png) |
+| ![Login](<img width="492" height="559" alt="image" src="https://github.com/user-attachments/assets/cebbd859-525c-4f5f-8e71-4c2815a07dac" />
+) | ![Dashboard](<img width="1360" height="690" alt="image" src="https://github.com/user-attachments/assets/49c9c664-ed51-49e9-b157-3eaf3748ddf9" />
+) | ![Notifications](<img width="1350" height="688" alt="image" src="https://github.com/user-attachments/assets/5eaca10b-b475-42c0-9089-df0e2d9157e3" />
+) |
 
 ---
 
