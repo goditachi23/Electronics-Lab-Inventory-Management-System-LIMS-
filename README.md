@@ -182,4 +182,8 @@ Improve UI/UX with responsive framework (e.g., Bootstrap/Tailwind)
 Created by [Your Name] – feel free to reach out via email: vedanshgupta00@gmail.com
 
 🏁 License
-MIT License – feel free to use and adapt.
+MIT License
+
+
+
+Here is the full video link Of this inventory system working: https://youtu.be/cU_C44I-g7g
