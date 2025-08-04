@@ -24,6 +24,11 @@ class ComponentsManager {
         if (auth.isAdmin()) {
             this.showAdminFeatures();
         }
+
+        // Ensure dashboard is available for modal logic
+        if (!window.dashboard && typeof DashboardManager !== 'undefined') {
+            window.dashboard = new DashboardManager();
+        }
     }
 
     loadComponents() {
@@ -44,6 +49,28 @@ class ComponentsManager {
         if (navToggle && navMenu) {
             navToggle.addEventListener('click', () => {
                 navMenu.classList.toggle('active');
+            });
+        }
+
+        // REPORTS TAB EVENT LISTENER
+        const reportsLink = document.getElementById('reportsLink');
+        if (reportsLink) {
+            reportsLink.addEventListener('click', (e) => {
+                e.preventDefault();
+                window.location.href = 'reports.html';
+            });
+        }
+
+        // USERS TAB EVENT LISTENER
+        const usersLink = document.getElementById('usersLink');
+        if (usersLink) {
+            usersLink.addEventListener('click', (e) => {
+                e.preventDefault();
+                if (auth.isAdmin() && window.dashboard && window.dashboard.showUsersModal) {
+                    window.dashboard.showUsersModal();
+                } else {
+                    Utils.showNotification('Access denied. Admin privileges required.', 'error');
+                }
             });
         }
 

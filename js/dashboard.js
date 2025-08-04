@@ -85,6 +85,15 @@ class DashboardManager {
         // Initialize modals
         Utils.initializeModal('usersModal');
         Utils.initializeModal('userFormModal');
+
+        // REPORTS TAB EVENT LISTENER
+        const reportsLink = document.getElementById('reportsLink');
+        if (reportsLink) {
+            reportsLink.addEventListener('click', (e) => {
+                e.preventDefault();
+                window.location.href = 'reports.html';
+            });
+        }
     }
 
     updateUserInfo() {
@@ -466,6 +475,34 @@ class DashboardManager {
                 Utils.showNotification(`Error: ${error.message}`, 'error');
             }
         }
+    }
+
+    downloadInventoryReport() {
+        // Prepare CSV header
+        const header = ['Name', 'Part Number', 'Quantity', 'Unit Price', 'Critical Low Threshold', 'Added Date'];
+        // Prepare CSV rows
+        const rows = this.components.map(comp => [
+            comp.name,
+            comp.partNumber,
+            comp.quantity,
+            comp.unitPrice,
+            comp.criticalLowThreshold,
+            comp.addedDate
+        ]);
+        // Combine header and rows
+        const csvContent = [header, ...rows]
+            .map(row => row.map(item => '"' + String(item).replace(/"/g, '""') + '"').join(','))
+            .join('\n');
+        // Create a blob and trigger download
+        const blob = new Blob([csvContent], { type: 'text/csv' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'inventory_report.csv';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
     }
 }
 

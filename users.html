@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Users Management</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="dashboard.html" class="nav-logo">
+                <i class="fas fa-microchip"></i>
+                Electronics Inventory
+            </a>
+            <ul class="nav-menu" id="navMenu">
+                <li class="nav-item"><a href="dashboard.html" class="nav-link">Dashboard</a></li>
+                <li class="nav-item"><a href="components.html" class="nav-link">Components</a></li>
+                <li class="nav-item"><a href="reports.html" class="nav-link">Reports</a></li>
+                <li class="nav-item" id="adminNav" style="display: none;"><a href="users.html" class="nav-link active" id="usersLink"><i class="fas fa-users"></i> Users</a></li>
+            </ul>
+        </div>
+    </nav>
+    <main class="main-content">
+        <div class="page-header">
+            <h1 class="page-title"><i class="fas fa-users"></i> Users Management</h1>
+            <p class="page-description">Manage system users here. (Feature coming soon!)</p>
+        </div>
+    </main>
+    <script src="js/auth.js"></script>
+    <script>
+    // Show admin nav if user is admin
+    document.addEventListener('DOMContentLoaded', function() {
+        if (window.auth && window.auth.isAdmin && window.auth.isAdmin()) {
+            document.getElementById('adminNav').style.display = 'block';
+        }
+    });
+    </script>
+</body>
+</html>

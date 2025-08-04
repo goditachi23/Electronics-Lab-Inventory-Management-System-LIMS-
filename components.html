@@ -352,10 +352,99 @@
         </div>
     </div>
 
+    <!-- User Management Modal (Admin only) -->
+    <div id="usersModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">User Management</h2>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <button class="btn btn-primary mb-20" id="addUserBtn">
+                    <i class="fas fa-plus"></i>
+                    Add New User
+                </button>
+                <div class="table-container">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Username</th>
+                                <th>Name</th>
+                                <th>Role</th>
+                                <th>Email</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="usersTableBody">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Add/Edit User Modal -->
+    <div id="userFormModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title" id="userFormTitle">Add User</h2>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="userForm">
+                    <input type="hidden" id="userId" name="userId">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="formUsername">Username</label>
+                            <input type="text" id="formUsername" name="username" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="formName">Full Name</label>
+                            <input type="text" id="formName" name="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="formEmail">Email</label>
+                            <input type="email" id="formEmail" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="formRole">Role</label>
+                            <select id="formRole" name="role" required>
+                                <option value="">Select Role</option>
+                                <option value="admin">Admin</option>
+                                <option value="user">Lab Technician</option>
+                                <option value="researcher">Researcher</option>
+                                <option value="engineer">Manufacturing Engineer</option>
+                            </select>
+                        </div>
+                        <div class="form-group" id="passwordGroup">
+                            <label for="formPassword">Password</label>
+                            <input type="password" id="formPassword" name="password">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" onclick="Utils.hideModal('userFormModal')">Cancel</button>
+                <button type="submit" form="userForm" class="btn btn-primary">Save User</button>
+            </div>
+        </div>
+    </div>
     <!-- Scripts -->
     <script src="data/mockData.js"></script>
     <script src="js/utils.js"></script>
     <script src="js/auth.js"></script>
+    <script src="js/dashboard.js"></script>
     <script src="js/components.js"></script>
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Show admin nav if user is admin
+        if (window.auth && window.auth.isAdmin && window.auth.isAdmin()) {
+            document.getElementById('adminNav').style.display = 'block';
+        }
+        // Ensure dashboard is available for modal logic after auth is ready
+        if (!window.dashboard && typeof DashboardManager !== 'undefined') {
+            window.dashboard = new DashboardManager();
+        }
+    });
+    </script>
 </body>
 </html>
