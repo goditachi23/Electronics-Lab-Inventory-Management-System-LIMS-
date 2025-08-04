@@ -74,6 +74,10 @@ MongoDB (Mongoose)
 - **User**: Restricted access
 
 ---
+<a href="https://youtu.be/cU_C44I-g7g" target="_blank" rel="noopener noreferrer" class="video-link text-sm">
+                    Click here to see all features and functions of the system
+                </a>
+
 
 ## 🧰 Setup Instructions
 
@@ -183,7 +187,3 @@ Created by [Your Name] – feel free to reach out via email: vedanshgupta00@gmai
 
 🏁 License
 MIT License
-
-
-
-<a href= "https://youtu.be/cU_C44I-g7g">Click Here to play the full video of Electronic Inventory Management System working</a>
