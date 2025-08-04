@@ -186,4 +186,4 @@ MIT License
 
 
 
-Here is the full video link Of this inventory system working: https://youtu.be/cU_C44I-g7g
+<a href= "https://youtu.be/cU_C44I-g7g">Click Here to play the full video of Electronic Inventory Management System working</a>
